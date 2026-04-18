@@ -1,164 +1,113 @@
-# 📚 Book Scraper System – Codveda Level 1 Task 1
+# Codveda Technology – Data Science Internship (Level 1)
 
-A **production‑ready, deployment‑ready web scraping system** that extracts book data from `books.toscrape.com` (an ethical, practice‑friendly website).  
-It features:
+## Overview
 
-- 🚀 **FastAPI backend** – REST API to trigger scraping and retrieve data  
-- 📊 **Streamlit frontend** – interactive dashboard to view and export scraped books  
-- ⚡ **Concurrent scraping** – polite, rate‑limited, with retries and user‑agent rotation  
-- 🗄️ **SQLite storage** – persistent database with simple querying  
-- 🐳 **Docker & docker‑compose** – one‑command deployment  
-- 📝 **Full logging** – errors and info written to both console and file  
+Welcome to my submission for **Level 1** of the Codveda Data Science Internship.  
+I have completed **all three tasks** with a dual approach:
 
----
+- **Task 1 (Web Scraping)** – I built a **production‑grade full‑stack application** (FastAPI + Streamlit + Docker) and also provide a **Jupyter notebook** version for reproducibility.
+- **Task 2 (Data Cleaning)** – A detailed notebook with outlier removal, encoding, and standardisation.
+- **Task 3 (Exploratory Data Analysis)** – A PhD‑level notebook with statistical tests, PCA, and business insights.
 
-## 🧠 Why This Stands Out
-
-- **Exceeds requirements** – not just a script, but a complete microservice system  
-- **Production patterns** – background tasks, concurrency, retries, configuration management  
-- **Maintainable code** – modular structure with separation of concerns  
-- **Deployment ready** – containerised with environment variables  
-- **Ethical scraping** – respects `robots.txt`, includes polite delays, identifies itself  
+Every task exceeds the basic requirements. The code is clean, documented, and ready for real‑world use.
 
 ---
 
-## 🛠️ Tech Stack
 
-| Component      | Technology                          |
-|----------------|-------------------------------------|
-| Scraping       | `requests` + `BeautifulSoup`        |
-| Concurrency    | `ThreadPoolExecutor`                |
-| Resilience     | `tenacity` (retries)                |
-| User‑agent     | `fake-useragent`                    |
-| Backend API    | FastAPI + Uvicorn                   |
-| Frontend       | Streamlit                           |
-| Database       | SQLite                              |
-| Deployment     | Docker + Docker Compose             |
 
 ---
 
-## 📁 Project Structure
-scraping_system/
-├── README.md
-├── requirements.txt
-├── docker-compose.yml
-├── Dockerfile
-├── .env.example
-├── config.yaml
-├── backend/                     # (already provided)
-├── frontend/                    # (already provided)
-├── tests/
-│   ├── __init__.py
-│   ├── conftest.py
-│   ├── test_api.py
-│   └── test_scraper.py
-├── data/
-│   └── .gitkeep                 # ensures directory exists in repo
-└── logs/
-    └── .gitkeep
+## Task 1 – Data Collection & Web Scraping
+
+### The Problem
+Manually collecting data from websites is slow and error‑prone. I built an **automated scraping system** that extracts book information from `books.toscrape.com` (a practice‑friendly website) and serves it via a REST API with an interactive dashboard.
+
+
+**Key Features**
+- **Concurrent, polite scraping** – `ThreadPoolExecutor` with random delays (0.5–0.8 s) and user‑agent rotation to avoid blocking.
+- **Resilience** – automatic retries (`tenacity`), timeouts, and logging.
+- **FastAPI backend** – endpoints to trigger a scrape and retrieve paginated results.
+- **Streamlit dashboard** – visualise, filter, sort, and export scraped books to CSV.
+- **Dockerised** – run the whole system with `docker-compose up`.
+
+- Run the task_1.ipynb notebook cell by cell in any Jupyter environment.
 
 ---
 
-## 🚀 Quick Start
 
-### Prerequisites
-- Python 3.10+ (if running locally)
-- Docker & Docker Compose (if using containers)
-
-### Option 1: Run with Docker (Recommended)
-```bash
-git clone https://github.com/yourusername/scraping_system.git
-cd scraping_system
-docker-compose up --build
-Then open:
-
-API documentation: http://localhost:8000/docs
-
-Streamlit dashboard: http://localhost:8501
-
-Option 2: Run Locally (without Docker)
-bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate   # or `venv\Scripts\activate` on Windows
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start backend (terminal 1)
-uvicorn backend.main:app --reload --port 8000
-
-# Start frontend (terminal 2)
-streamlit run frontend/app.py --server.port 8501
-🔧 Configuration
-Edit config.yaml to adjust:
-
-scraper.max_pages – how many pages to scrape
-
-scraper.concurrency – number of parallel workers
-
-scraper.request_delay – seconds between requests
-
-database.sqlite_path – where to store the database
-
-Environment variables (.env) override YAML settings (see .env.example).
-
-📡 API Endpoints
-Method	Endpoint	Description
-GET	/api/v1/books	Paginated list of scraped books
-GET	/api/v1/books/count	Total number of books in DB
-POST	/api/v1/scrape	Trigger scraping (background task)
-🧪 Testing
-Run unit tests:
-
-bash
-pytest tests/ -v
-📄 License
-MIT – free for personal and educational use.
-
-👨‍💻 Author
-Your Name – LinkedIn – GitHub
-
-🙏 Acknowledgements
-Books to Scrape for providing a safe scraping environment
-
-Codveda Technology for the internship opportunity
-
-Video Demo: [Link to your LinkedIn/YouTube video]
-Live Dashboard: [Deployment URL if any]
-GitHub Repository: https://github.com/yourusername/scraping_system
-
-text
 
 ---
 
-## 2. `requirements.txt`
+## Task 2 – Data Cleaning & Preprocessing
 
-```txt
-# Core
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-streamlit==1.28.1
-requests==2.31.0
-beautifulsoup4==4.12.2
-lxml==4.9.3
+### The Problem
+- Raw customer churn data (churn-bigml-80.csv) contains outliers, categorical variables, and unscaled numerical features – all of which must be fixed before machine learning.
 
-# Scraping enhancements
-fake-useragent==1.4.0
-tenacity==8.2.3
+### What I Did
+- Handled missing data – demonstrated median imputation (dataset had none).
 
-# Data & configuration
-pydantic==2.5.0
-pydantic-settings==2.1.0
-python-dotenv==1.0.0
-pyyaml==6.0.1
-pandas==2.1.3
+- Removed outliers using the Interquartile Range (IQR) method – eliminated 420 rows (15.8%).
 
-# Utilities
-aiofiles==23.2.1
-httpx==0.25.1
+- Encoded categorical variables – label encoding for International plan and Voice mail plan; one‑hot encoding for State.
 
-# Testing
-pytest==7.4.3
-pytest-asyncio==0.21.1
-3. 
+- Standardised numerical features using StandardScaler (zero mean, unit variance).
+
+### Key Outputs
+- Outlier counts: Customer service calls had 210 outliers (7.9%), Total intl calls 66 outliers (2.5%).
+
+- Shape change: from 2666×20 to 2246×69 after one‑hot encoding.
+
+- Final cleaned dataset: churn_cleaned_preprocessed.csv (ready for modelling).
+
+### How to Run
+Open task_2.ipynb in Jupyter or VSCode and run all cells.
+---
+
+
+
+---
+
+## Task 3 – Exploratory Data Analysis (PhD‑Level)
+### The Problem
+- Understanding why customers churn is critical for business. I performed an in‑depth statistical and visual analysis to uncover patterns, test hypotheses, and generate actionable recommendations.
+
+### What I Did (Beyond Basic EDA)
+- Advanced summary statistics – skewness, kurtosis, coefficient of variation.
+
+- Outlier detection – IQR and Z‑score methods with visual confirmation.
+
+- Hypothesis testing – t‑tests, chi‑square tests (all p‑values < 0.001 for churn‑related features).
+
+- Correlation matrix with hierarchical clustering and a clustered heatmap.
+
+- Principal Component Analysis (PCA) – reduced 16 numerical features to 2 dimensions.
+
+
+### Key Insights
+- PCA variance: The first two principal components explain only 25.5% of the variance (PC1=12.8%, PC2=12.7%). This is typical for datasets with many weakly correlated features; more components would be needed to capture the majority of variance.
+
+#### Top churn drivers (correlation with Churn):
+
+- International plan (encoded): +0.34
+
+- Customer service calls: +0.32
+
+- Total day minutes: +0.21
+
+#### Protective factor: Voice mail plan (encoded): –0.15
+
+#### Statistical significance: All numerical features except Area code differ significantly between churned and non‑churned customers (t‑test p < 0.001).
+
+#### Chi‑square tests: International plan, Voice mail plan, and State are strongly associated with churn (p < 0.001).
+
+### Business Recommendations
+- Proactively contact customers with >5 service calls or >250 day minutes.
+
+- Re‑evaluate the International plan – high churn suggests poor perceived value.
+
+- Promote the Voice mail plan as a loyalty tool.
+
+- For modelling: drop one of each minutes/charge pair, scale features, and use class weighting (churn is only 15%).
+
+### How to Run
+Open task_3.ipynb and execute all cells. The final report is saved as eda_insights_report.txt.
