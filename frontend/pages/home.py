@@ -1,35 +1,23 @@
-"""
-Home Page – Scraping Control Panel.
-
-This page allows users to:
-    - Trigger a new scraping job.
-    - View real‑time statistics (book count, last scrape time).
-    - Monitor the status of ongoing scraping.
-"""
-
 import streamlit as st
 import time
+import sys
+from pathlib import Path
+
+# Add project root to Python path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 from frontend.utils.api_client import trigger_scrape, fetch_book_count
 
 st.set_page_config(page_title="Home - Book Scraper", page_icon="🏠")
-
 st.title("🏠 Scraping Control Panel")
 
-# -----------------------------------------------------------------------------
-# State Management
-# -----------------------------------------------------------------------------
-# Use session state to remember scrape status across reruns
 if "scraping_triggered" not in st.session_state:
     st.session_state.scraping_triggered = False
-if "scraping_message" not in st.session_state:
     st.session_state.scraping_message = ""
 
-# -----------------------------------------------------------------------------
-# Trigger Scrape Button
-# -----------------------------------------------------------------------------
 col1, col2 = st.columns([1, 2])
 with col1:
-    if st.button("🚀 Start New Scrape", type="primary", use_container_width=True):
+    if st.button("🚀 Start New Scrape", type="primary"):
         with st.spinner("Starting scraping job..."):
             result = trigger_scrape()
             if "message" in result:
@@ -37,27 +25,19 @@ with col1:
                 st.session_state.scraping_message = result["message"]
                 st.success(result["message"])
             else:
-                st.error("Failed to start scraping. Check backend logs.")
+                st.error("Failed to start scrape")
 
-# -----------------------------------------------------------------------------
-# Show status if scraping was triggered recently
-# -----------------------------------------------------------------------------
 if st.session_state.scraping_triggered:
     st.info(f"📢 {st.session_state.scraping_message}")
     st.caption("Scraping runs in the background. Refresh the page or check 'View Data' after ~30 seconds.")
 
-# -----------------------------------------------------------------------------
-# Statistics Section
-# -----------------------------------------------------------------------------
 st.markdown("---")
 st.subheader("📊 Database Statistics")
-
-# Auto‑refresh every 10 seconds if user wants
 auto_refresh = st.checkbox("Auto‑refresh every 10 seconds", value=False)
 
 def display_stats():
     count = fetch_book_count()
-    st.metric("Total Books in Database", count, delta=None)
+    st.metric("Total Books in Database", count)
     if count > 0:
         st.success(f"✅ Database contains {count} books. Go to 'View Data' to explore.")
     else:
@@ -73,9 +53,6 @@ if auto_refresh:
 else:
     display_stats()
 
-# -----------------------------------------------------------------------------
-# Help Section
-# -----------------------------------------------------------------------------
 with st.expander("ℹ️ How to use"):
     st.markdown("""
     1. Click **Start New Scrape** to begin collecting book data from `books.toscrape.com`.

@@ -10,14 +10,14 @@ It provides functions to:
 
 import requests
 import streamlit as st
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
-# The backend URL. When running with Docker Compose, the service name 'backend' is used.
-# For local development, you can override with environment variable or hardcode.
-API_BASE_URL = "http://backend:8000/api/v1"
+# For local development (without Docker), use localhost.
+# If you use Docker, change to "http://backend:8000/api/v1"
+API_BASE_URL = "http://localhost:8000/api/v1"
 
 # -----------------------------------------------------------------------------
 # API Functions
@@ -83,7 +83,8 @@ def health_check() -> bool:
         True if healthy, False otherwise.
     """
     try:
-        response = requests.get(f"{API_BASE_URL.replace('/api/v1', '')}/health", timeout=5)
+        # The health endpoint is at root level, not under /api/v1
+        response = requests.get("http://localhost:8000/health", timeout=5)
         return response.status_code == 200
     except:
         return False

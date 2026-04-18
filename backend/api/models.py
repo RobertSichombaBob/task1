@@ -24,7 +24,7 @@ class BookResponse(BaseModel):
     upc: Optional[str] = None   # Not always present in our simplified scraper
 
     class Config:
-        orm_mode = True   # Allows automatic conversion from SQLite Row objects
+        from_attributes = True   # Fixed: was "orm_mode = True" for Pydantic V2
 
 # -----------------------------------------------------------------------------
 # ScrapeTriggerResponse: Response after requesting a new scrape.
@@ -46,4 +46,4 @@ class MessageResponse(BaseModel):
     Used for endpoints that just need to return a status message.
     """
     message: str
-    status: Optional[str] = "ok"
+    status: Optional[str] = "ok" 

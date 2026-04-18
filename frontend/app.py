@@ -6,6 +6,12 @@ Pages are automatically discovered from the 'pages/' directory.
 """
 
 import streamlit as st
+import sys
+from pathlib import Path
+
+# Add project root to Python path so 'frontend' module can be found
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from frontend.utils.api_client import health_check
 
 # -----------------------------------------------------------------------------
@@ -53,17 +59,3 @@ Use the sidebar to navigate:
 """)
 
 st.info("💡 Tip: Click 'View Data' after triggering a scrape to see the results.")
-
-# -----------------------------------------------------------------------------
-# Quick Stats on Home Page
-# -----------------------------------------------------------------------------
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.metric("Total Books in DB", "—", help="Navigate to 'View Data' to load count")
-with col2:
-    st.metric("Last Scrape", "Not started", help="Trigger a scrape from the sidebar")
-with col3:
-    st.metric("API Status", "Checking...")
-
-# Note: The actual stats are loaded in the 'home.py' page, not here.
-# This file is just the main entry; the home page is pages/home.py.

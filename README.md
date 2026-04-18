@@ -39,30 +39,23 @@ It features:
 
 ## 📁 Project Structure
 scraping_system/
-├── README.md # You are here
-├── requirements.txt # Python dependencies
-├── docker-compose.yml # Multi‑container orchestration
-├── Dockerfile # Build image for both services
-├── .env.example # Environment variables template
-├── config.yaml # Scraper & database settings
-├── backend/ # FastAPI application
-│ ├── main.py
-│ ├── api/
-│ │ ├── routes.py
-│ │ └── models.py
-│ ├── core/
-│ │ ├── config.py
-│ │ ├── database.py
-│ │ └── scraper_engine.py
-│ └── services/
-├── frontend/ # Streamlit dashboard
-│ ├── app.py
-│ └── utils/
-├── tests/ # Unit tests (pytest)
-├── data/ # SQLite DB and CSV exports
-└── logs/ # Scraper logs
-
-text
+├── README.md
+├── requirements.txt
+├── docker-compose.yml
+├── Dockerfile
+├── .env.example
+├── config.yaml
+├── backend/                     # (already provided)
+├── frontend/                    # (already provided)
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_api.py
+│   └── test_scraper.py
+├── data/
+│   └── .gitkeep                 # ensures directory exists in repo
+└── logs/
+    └── .gitkeep
 
 ---
 
