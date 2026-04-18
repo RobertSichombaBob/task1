@@ -1,0 +1,42 @@
+# ============================================================
+#  Scraping System Configuration
+# ============================================================
+
+# Scraper behaviour
+scraper:
+  # Target website (books.toscrape.com is safe and ethical)
+  base_url: "http://books.toscrape.com/catalogue/page-{}.html"
+  
+  # How many pages to scrape (each page contains 20 books)
+  max_pages: 50
+  
+  # Number of concurrent page fetches
+  concurrency: 5
+  
+  # Base delay between requests (seconds)
+  request_delay: 1.0
+  
+  # Random jitter added to delay (seconds) – avoids pattern detection
+  request_jitter: 0.5
+  
+  # Timeout for each HTTP request (seconds)
+  timeout: 10
+  
+  # Number of retries on failure
+  retry_attempts: 3
+  
+  # Rotate user‑agent header to mimic different browsers
+  user_agent_rotation: true
+
+# Database configuration
+database:
+  # Path to SQLite database file (will be created automatically)
+  sqlite_path: "data/books.db"
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path (rotating logs are not enabled by default but can be added)
+  file: "logs/scraper.log"
